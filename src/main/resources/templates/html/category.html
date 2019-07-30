@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{common/common::common}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>前十种类扇形图</title>
+</head>
+<body>
+    <div th:replace="~{common/leftnavbar::leftnav}"></div>
+    <div class="layui-body" id="container" style="padding-top: 30px;">
+        <!--<div style="weight:700px;height:700px;" id="container"></div>-->
+    </div>
+</body>
+<script th:inline="javascript">
+    var dom = document.getElementById("container"),
+        myChart = echarts.init(dom), option,
+        type = [[${type}]], text;
+
+    if (type == 1){
+        text = "各任务点击不同种类(click_count)综合饼图";
+    } else if (type == 2){
+        text = "各任务下单不同种类(order_count)综合饼图";
+    } else {
+        text = "各任务支付不同种类(pay_count)综合饼图";
+    }
+    axios.post('/ttc', {
+            type: type
+        })
+        .then(function (res) {
+            var legendData = [], seriesData = [], selected = {};
+            for (var i=0;i<res.data.length;i++){
+                var name = "TaskId-" + res.data[i].taskId;
+                legendData.push(name);
+                seriesData.push({
+                    name: name,
+                    value: res.data[i].data
+                });
+                selected[name] = i < res.data.length;
+            }
+
+            option = {
+                title : {
+                    text: text,
+                    subtext: '统计结果如下',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: legendData,
+                    selected: selected
+                },
+                series : [
+                    {
+                        name: '任务ID',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['40%', '50%'],
+                        data: seriesData,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option, true);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+</script>
+</html>

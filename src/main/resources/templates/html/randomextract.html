@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{common/common::common}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>session_random_extract</title>
+</head>
+<body>
+    <div th:replace="~{common/leftnavbar::leftnav}"></div>
+    <div class="layui-body">
+        <div class="demoTable" style="padding-top: 10px;padding-left: 10px;">
+            搜索TaskID：
+            <div class="layui-inline">
+                <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+    </div>
+</body>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table, $ = layui.$;
+
+        //方法级渲染
+        var t = table.render({
+            elem: '#LAY_table_user'
+            ,url: '/re'
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.code,
+                    "count": res.data.total,
+                    "data": res.data.list
+                };
+            }
+            ,cols: [
+                [
+                    {field:'taskid', title: '任务ID', width:80, sort: true, fixed: true}
+                    ,{field:'sessionid', title: 'SessionID', width:300}
+                    ,{field:'startTime', title: '事件发生时间', width:200}
+                    ,{field:'searchKeywords', title: '搜索关键字', width:550}
+                    ,{field:'clickCategoryIds', title: '商品品类ID'}
+                ]
+            ]
+            ,id: 'testReload'
+            ,page: true
+            ,height: 'full-70'
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var demoReload = $('#demoReload');
+            t.reload({
+                page: {
+                    curr: 1
+                }
+                ,where: {
+                    taskId: demoReload.val()
+                }
+            })
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{common/common::common}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>访问步长</title>
+</head>
+<body>
+    <div th:replace="~{common/leftnavbar::leftnav}"></div>
+    <div class="layui-body" id="container">
+        <!--<div style="weight:700px;height:700px;" id="container"></div>-->
+    </div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    function createSr(name, type, data) {
+        var o = new Object();
+        o.name = name;
+        o.type = type;
+        o.data = data;
+        return o;
+    }
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    option = null;
+    var data = [], datalg = [], datasr = [], dataX = ["1_3", "4_6", "7_9", "10_30", "30_60", "60"];
+    axios.post('/at')
+        .then(function (res) {
+            data = Object.values(res.data);
+            for (var i=0;i<data.length;i++){
+                datalg.push("taskId-"+data[i].taskid);
+                var temp = [];
+                temp.push(data[i].step_length_1_3_ratio);
+                temp.push(data[i].step_length_4_6_ratio);
+                temp.push(data[i].step_length_7_9_ratio);
+                temp.push(data[i].step_length_10_30_ratio);
+                temp.push(data[i].step_length_30_60_ratio);
+                temp.push(data[i].step_length_60_ratio);
+                datasr.push(createSr("taskId-"+data[i].taskid, "line", temp));
+            }
+            myChart.setOption(option, true);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    option = {
+        title: {
+            text: '访问步长'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: datalg
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: dataX
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: function (v) {
+                    return v.toFixed(1);
+                }
+            }
+        },
+        series: datasr
+    };
+
+</script>
+</html>

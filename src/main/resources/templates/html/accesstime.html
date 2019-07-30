@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{common/common::common}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>访问时长</title>
+</head>
+<body>
+    <div th:replace="~{common/leftnavbar::leftnav}"></div>
+    <div class="layui-body" id="container">
+        <!--<div style="weight:700px;height:700px;" id="container"></div>-->
+    </div>
+
+</body>
+<script type="text/javascript" th:inline="javascript">
+    function createSr(name, type, data) {
+        var o = new Object();
+        o.name = name;
+        o.type = type;
+        o.data = data;
+        return o;
+    }
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    option = null;
+    var data = [], datalg = [], datasr = [], dataX = ["1s_3s", "4s_6s", "7s_9s", "10s_30s", "30s_60s", "1m_3m", "3m_10m", "10m_30m", "30m"];
+    axios.post('/at')
+        .then(function (res) {
+            data = Object.values(res.data);
+            for (var i=0;i<data.length;i++){
+                datalg.push("taskId-"+data[i].taskid);
+                var temp = [];
+                temp.push(data[i].visit_length_1s_3s_ratio);
+                temp.push(data[i].visit_length_4s_6s_ratio);
+                temp.push(data[i].visit_length_7s_9s_ratio);
+                temp.push(data[i].visit_length_10s_30s_ratio);
+                temp.push(data[i].visit_length_30s_60s_ratio);
+                temp.push(data[i].visit_length_1m_3m_ratio);
+                temp.push(data[i].visit_length_3m_10m_ratio);
+                temp.push(data[i].visit_length_10m_30m_ratio);
+                temp.push(data[i].visit_length_30m_ratio);
+                datasr.push(createSr("taskId-"+data[i].taskid, "line", temp));
+            }
+            myChart.setOption(option, true);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    option = {
+        title: {
+            text: '访问时长'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: datalg
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: dataX
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: function (v) {
+                    return v.toFixed(1);
+                }
+            }
+        },
+        series: datasr
+    };
+
+</script>
+</html>
