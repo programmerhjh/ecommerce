@@ -132,7 +132,7 @@ public interface DataMapper {
             @Result(property = "sessionid", column = "session_id"),
             @Result(property = "clickCount", column = "click_count")
     })
-    @Select(value = "SELECT * FROM top10_category_session")
+    @Select(value = "SELECT * FROM top10_session")
     List<Top10Session> getTopTenSession();
 
     /**
@@ -141,7 +141,19 @@ public interface DataMapper {
      * @return
      */
     @ResultMap(value = "topSessionMap")
-    @Select(value = "SELECT * FROM top10_category_session WHERE task_id=#{taskId}")
+    @Select(value = "SELECT * FROM top10_session WHERE task_id=#{taskId}")
     List<Top10Session> getTopTenSessionByTaskId(Integer taskId);
+
+    /**
+     * 获取所有的页面分割转换率
+     * @return
+     */
+    @Results(id = "pageSplitConvertRateMap", value = {
+                @Result(property = "taskId", column = "taskid"),
+                @Result(property = "convertRate", column = "convert_rate")
+    })
+    @Select(value = "SELECT * FROM page_split_convert_rate")
+    List<PageSplitConvertRate> getPageSplitConvertRate();
+
 
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{common/common::common}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>页面分割转化率</title>
+</head>
+<body>
+    <div th:replace="~{common/leftnavbar::leftnav}"></div>
+    <div class="layui-body" id="container">
+        <!--<div style="weight:700px;height:700px;" id="container"></div>-->
+    </div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+    function createSr(name, type, data) {
+        var o = new Object();
+        o.name = name;
+        o.type = type;
+        o.data = data;
+        return o;
+    }
+
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    option = null;
+    var data = [], datalg = [], datasr = [], dataX = [];
+    axios.post('/pscr_data')
+        .then(function (res) {
+            data = Object.values(res.data);
+            for (var q=0;q<data[0].position.length;q++){
+                dataX.push(data[0].position[q].x);
+            }
+            for (var i=0;i<data.length;i++){
+                datalg.push("taskId-"+data[i].taskId);
+                var temp = [];
+                for (var j=0;j<data[i].position.length;j++){
+                    temp.push(data[i].position[j].y);
+                }
+                datasr.push(createSr("taskId-"+data[i].taskId, "line", temp));
+            }
+            myChart.setOption(option, true);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    option = {
+        title: {
+            text: '页面分割率'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: datalg
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: dataX
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: function (v) {
+                    return v.toFixed(1);
+                }
+            }
+        },
+        series: datasr
+    };
+
+</script>
+</html>

@@ -1,6 +1,7 @@
 package prv.xsq.eco.service;
 
 import prv.xsq.eco.dto.CategoryDTO;
+import prv.xsq.eco.dto.PageSplitConvertRateDTO;
 import prv.xsq.eco.entities.*;
 
 import java.util.List;
@@ -71,5 +72,11 @@ public interface PageService {
      * @return
      */
     List<Top10Session> getAllTopTenSession(Integer pageNum, Integer column);
+
+    /**
+     * 获取所有的页面分割转换率
+     * @return
+     */
+    List<PageSplitConvertRateDTO> getPageSplitConvertRate();
 
 }

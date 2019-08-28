@@ -3,17 +3,19 @@ package prv.xsq.eco.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author 洪家豪
- *         Created by acer on 2019/7/12.
+ *         Created by acer on 2019/8/28.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageFront {
-    private Integer code;
-    private String msg;
-    private Integer count;
-    private Object data;
+@ToString
+public class PageSplitConvertRate {
+
+    private Integer taskId;
+    private String convertRate;
+
 }
