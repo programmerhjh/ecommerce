@@ -7,11 +7,15 @@
 </head>
 <body>
     <div th:replace="~{common/leftnavbar::leftnav}"></div>
-    <div class="layui-body" id="container" style="weight:700px;height:700px;" >
+    <div class="layui-body" id="container" style="weight:700px;height:700px;padding-left:68px;" >
         <!--<div style="weight:700px;height:700px;" id="container"></div>-->
     </div>
     <div style="padding-top:660px;padding-left:215px;">
-            <p style="text-align: center;font-size: 200%" >记录用户浏览网页的个数</p>
+        <p style="text-align: center;font-size: 120%" >
+            访问步长在1_3步的用户仅仅占10%左右，说明主页没有大多数用户需要的商品，或者是用户未在主页找到商品
+            需要优化主页以及推荐引擎；</p>
+        <p style="text-align: center;font-size: 120%" >访问步长越多，说明用户未找到合适的商品、或者是下单支付的步骤出现了一些
+            错误，需要及时检查更新系统。</p>
     </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
@@ -60,7 +64,7 @@
             top: "10%",
             left: '3%',
             right: '8%',
-            bottom: '13%',
+            bottom: '10%',
             containLabel: true
         },
         toolbox: {

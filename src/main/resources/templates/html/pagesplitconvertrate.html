@@ -7,8 +7,16 @@
 </head>
 <body>
     <div th:replace="~{common/leftnavbar::leftnav}"></div>
-    <div class="layui-body" id="container">
+    <div class="layui-body" id="container" style="padding-left:68px;">
         <!--<div style="weight:700px;height:700px;" id="container"></div>-->
+    </div>
+    <div style="padding-top:660px;padding-left:215px;">
+        <p style="text-align: center;font-size: 120%">
+            页面跳转率越接近100%，说明系统设计越合理，能够满足用户购买的需求、或者是广告投放非常的精确
+        </p>
+        <p style="text-align: center;font-size: 120%">
+            如果其中某个跳转率很低，那就是页面设计很不合理，或者是系统出现跳转异常，需要及时更新系统。
+        </p>
     </div>
 </body>
 
@@ -55,9 +63,10 @@
             data: datalg
         },
         grid: {
+            top: "12%",
             left: '3%',
-            right: '4%',
-            bottom: '3%',
+            right: '10%',
+            bottom: '18%',
             containLabel: true
         },
         toolbox: {
@@ -66,11 +75,13 @@
             }
         },
         xAxis: {
+            name: "页面x跳转到页面y",
             type: 'category',
             boundaryGap: false,
             data: dataX
         },
         yAxis: {
+            name: "百分比",
             type: 'value',
             axisLabel: {
                 formatter: function (v) {
