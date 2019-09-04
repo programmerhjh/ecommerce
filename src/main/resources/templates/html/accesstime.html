@@ -7,10 +7,12 @@
 </head>
 <body>
     <div th:replace="~{common/leftnavbar::leftnav}"></div>
-    <div class="layui-body" id="container">
+    <div class="layui-body" id="container" style="weight:700px;height:700px;">
         <!--<div style="weight:700px;height:700px;" id="container"></div>-->
     </div>
-
+    <div style="padding-top:660px;padding-left:215px;">
+        <p style="text-align: center;font-size: 200%">记录用户浏览网页的时间</p>
+    </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
     function createSr(name, type, data) {
@@ -58,9 +60,10 @@
             data: datalg
         },
         grid: {
+            top: "10%",
             left: '3%',
-            right: '4%',
-            bottom: '3%',
+            right: '17%',
+            bottom: '13%',
             containLabel: true
         },
         toolbox: {
@@ -69,11 +72,13 @@
             }
         },
         xAxis: {
+            name: "时间区间（s表示秒，m表示分钟）",
             type: 'category',
             boundaryGap: false,
             data: dataX
         },
         yAxis: {
+            name: "百分比",
             type: 'value',
             axisLabel: {
                 formatter: function (v) {
@@ -84,5 +89,21 @@
         series: datasr
     };
 
+    function accessfunc() {
+        if (document.getElementById("access").getAttribute("class")=="layui-nav-item layui-nav-itemed"){
+            document.getElementById("access").setAttribute("class", "layui-nav-item");
+        } else {
+            document.getElementById("access").setAttribute("class", "layui-nav-item layui-nav-itemed");
+        }
+    }
+
+    function categoryfunc() {
+        if (document.getElementById("category").getAttribute("class")=="layui-nav-item layui-nav-itemed"){
+            document.getElementById("category").setAttribute("class", "layui-nav-item");
+        } else {
+            document.getElementById("category").setAttribute("class", "layui-nav-item layui-nav-itemed");
+        }
+    }
+    document.getElementById("access").setAttribute("class", "layui-nav-item layui-nav-itemed");
 </script>
 </html>

@@ -62,5 +62,20 @@
             })
         });
     });
+
+    function accessfunc() {
+        if (document.getElementById("access").getAttribute("class")=="layui-nav-item layui-nav-itemed"){
+            document.getElementById("access").setAttribute("class", "layui-nav-item");
+        } else {
+            document.getElementById("access").setAttribute("class", "layui-nav-item layui-nav-itemed");
+        }
+    }
+    function categoryfunc() {
+        if (document.getElementById("category").getAttribute("class")=="layui-nav-item layui-nav-itemed"){
+            document.getElementById("category").setAttribute("class", "layui-nav-item");
+        } else {
+            document.getElementById("category").setAttribute("class", "layui-nav-item layui-nav-itemed");
+        }
+    }
 </script>
 </html>

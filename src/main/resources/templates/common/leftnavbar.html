@@ -1,26 +1,27 @@
-<div class="layui-side layui-bg-black" th:fragment="leftnav" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="layui-side-scroll">
-        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-            <li class="layui-nav-item layui-nav-itemed">
-                <a>session_aggr_stat</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="accesstime">访问时长</a></dd>
-                    <dd><a href="accessstep">访问步长</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="randomextract">session_random_extract</a></li>
-            <li class="layui-nav-item"><a href="task">task</a></li>
-            <li class="layui-nav-item layui-nav-itemed ">
-                <a>top10_category_graph</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="category?type=1">click_graph</a></dd>
-                    <dd><a href="category?type=2">order_graph</a></dd>
-                    <dd><a href="category?type=3">pay_graph</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="session">top10_session</a></li>
-            <li class="layui-nav-item"><a href="pscr">page_split_convert_rate</a></li>
-        </ul>
-    </div>
+<div th:fragment="leftnav" xmlns:th="http://www.w3.org/1999/xhtml">
+    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    <ul class="layui-nav layui-nav-tree layui-nav-side" lay-shrink="all">
+        <li class="layui-nav-item" id="access">
+            <a onclick="accessfunc();">
+                session 访问统计
+                <span class="layui-nav-more"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="accesstime">访问时长</a></dd>
+                <dd><a href="accessstep">访问步长</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="randomextract">随机 session 明细列表</a></li>
+        <li class="layui-nav-item"><a href="task">任务列表</a></li>
+        <li class="layui-nav-item" id="category">
+            <a onclick="categoryfunc();">商品种类前十点击统计分析<span class="layui-nav-more"></span></a>
+            <dl class="layui-nav-child">
+                <dd><a href="category?type=1">点击任务-饼状统计</a></dd>
+                <dd><a href="category?type=2">预订任务-饼状统计</a></dd>
+                <dd><a href="category?type=3">支付任务-饼状统计</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="session">商品品类点击量前十的用户session</a></li>
+        <li class="layui-nav-item"><a href="pscr">页面跳转率</a></li>
+    </ul>
 </div>
